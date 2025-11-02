@@ -28,7 +28,7 @@ export default function LoginPage() {
       } else {
         router.push('/studio/dashboard')
       }
-    } catch (err) {
+    } catch {
       setError('An error occurred. Please try again.')
     } finally {
       setLoading(false)

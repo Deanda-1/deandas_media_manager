@@ -10,7 +10,7 @@ export const client = createClient({
   useCdn,
   token,
   // If a token is present, include drafts in queries for a more complete admin view
-  perspective: token ? 'previewDrafts' : 'published',
+  perspective: token ? 'drafts' : 'published',
   stega: { enabled: false },
 })
 

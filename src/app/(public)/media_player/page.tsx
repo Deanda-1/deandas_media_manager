@@ -20,8 +20,9 @@ async function getMedia(id: string) {
   return sanityFetch<MediaItem | null>({ query: MEDIA_BY_ID, params: { id } })
 }
 
-export default async function MediaPlayerPage({ searchParams }: { searchParams: { id?: string } }) {
-  const id = searchParams?.id
+export default async function MediaPlayerPage({ searchParams }: { searchParams: Promise<{ id?: string }> }) {
+  const params = await searchParams
+  const id = params?.id
 
   if (!id) {
     return (
@@ -57,6 +58,41 @@ export default async function MediaPlayerPage({ searchParams }: { searchParams: 
   const isAudio = mime.startsWith('audio/')
   const isVideo = mime.startsWith('video/')
   const isImage = mime.startsWith('image/')
+  const isTextLike =
+    mime.startsWith('text/') ||
+    mime === 'application/json' ||
+    (!!asset.originalFilename && /\.(md|markdown|txt|json)$/i.test(asset.originalFilename))
+
+  // Inline text content (text/plain, text/markdown, application/json)
+  let inlineText: string | null = null
+  let inlineTruncated = false
+  if (isTextLike) {
+    try {
+      const res = await fetch(asset.url, { cache: 'no-store' })
+      if (res.ok) {
+        const raw = await res.text()
+        let rendered = raw
+        if (mime === 'application/json' || /\.json$/i.test(asset.originalFilename || '')) {
+          try {
+            const parsed = JSON.parse(raw)
+            rendered = JSON.stringify(parsed, null, 2)
+          } catch {
+            // If JSON parse fails, just show raw text
+          }
+        }
+        // Cap very large files to keep page responsive
+        const MAX_CHARS = 200_000 // ~200 KB of text
+        if (rendered.length > MAX_CHARS) {
+          inlineTruncated = true
+          inlineText = rendered.slice(0, MAX_CHARS)
+        } else {
+          inlineText = rendered
+        }
+      }
+    } catch {
+      // Ignore preview fetch errors; we'll fall back to download-only UI below
+    }
+  }
 
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -67,24 +103,40 @@ export default async function MediaPlayerPage({ searchParams }: { searchParams: 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
         <div className="lg:col-span-2 bg-white rounded-xl shadow p-4">
           {/* Player / Preview */}
-          <div className="relative w-full aspect-video bg-black flex items-center justify-center overflow-hidden rounded-md">
+          <div className="relative w-full overflow-hidden rounded-md">
             {isAudio && (
-              <audio controls className="w-full">
-                <source src={asset.url} type={mime} />
-                Your browser does not support the audio element.
-              </audio>
+              <div className="aspect-video bg-black flex items-center justify-center">
+                <audio controls className="w-full">
+                  <source src={asset.url} type={mime} />
+                  Your browser does not support the audio element.
+                </audio>
+              </div>
             )}
             {isVideo && (
-              <video controls className="w-full h-full">
-                <source src={asset.url} type={mime} />
-                Your browser does not support the video element.
-              </video>
+              <div className="aspect-video bg-black">
+                <video controls className="w-full h-full">
+                  <source src={asset.url} type={mime} />
+                  Your browser does not support the video element.
+                </video>
+              </div>
             )}
             {isImage && (
-              <Image src={asset.url} alt={title || 'Media image'} fill className="object-contain" />
+              <div className="aspect-video bg-black">
+                <Image src={asset.url} alt={title || 'Media image'} fill className="object-contain" />
+              </div>
             )}
-            {!isAudio && !isVideo && !isImage && (
-              <div className="text-gray-300 text-center p-8">
+            {/* Inline text-like preview */}
+            {!isAudio && !isVideo && !isImage && inlineText !== null && (
+              <div className="bg-gray-900 text-gray-100 rounded-md p-4 min-h-[50vh] max-h-[70vh] overflow-auto">
+                <pre className="whitespace-pre-wrap font-mono text-sm leading-6">{inlineText}</pre>
+                {inlineTruncated && (
+                  <p className="mt-2 text-xs text-gray-400">Preview truncated. Use download to view the full file.</p>
+                )}
+              </div>
+            )}
+            {/* Fallback when no preview available */}
+            {!isAudio && !isVideo && !isImage && inlineText === null && (
+              <div className="aspect-video bg-black text-gray-300 text-center p-8 flex items-center justify-center">
                 <p>Preview not available for this file type.</p>
               </div>
             )}

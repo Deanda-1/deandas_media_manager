@@ -1,18 +1,21 @@
 // GROQ query strings for public pages
 
-// All published categories with a media count
+// All published categories with a count across media and textFile
 export const CATEGORIES_WITH_COUNTS = `
 	*[_type == "category" && !(_id in path("drafts.**"))] | order(title asc) {
 		_id,
 		title,
 		slug,
-		"count": count(*[_type == "media" && !(_id in path("drafts.**")) && references(^._id)])
+		"count": count(*[(_type == "media" || _type == "textFile") && !(_id in path("drafts.**")) && references(^._id)])
 	}
 `
 
-// All published media, newest first
+// All published media and text files, newest first
 export const MEDIA_LIST = `
-	*[_type == "media" && !(_id in path("drafts.**"))] | order(_createdAt desc) {
+	[
+		*[_type == "media" && !(_id in path("drafts.**"))],
+		*[_type == "textFile" && !(_id in path("drafts.**"))]
+	] | order(_createdAt desc) {
 		_id,
 		title,
 		description,
@@ -28,9 +31,9 @@ export const MEDIA_LIST = `
 	}
 `
 
-// Single media by ID
+// Single media or text file by ID
 export const MEDIA_BY_ID = `
-	*[_type == "media" && _id == $id][0] {
+	*[_id == $id && (_type == "media" || _type == "textFile")][0] {
 		_id,
 		title,
 		description,
@@ -46,9 +49,12 @@ export const MEDIA_BY_ID = `
 	}
 `
 
-// Recent published media for home
+// Recent published media and text files for home
 export const RECENT_MEDIA = `
-	*[_type == "media" && !(_id in path("drafts.**"))] | order(_createdAt desc) [0...6] {
+	[
+		*[_type == "media" && !(_id in path("drafts.**"))],
+		*[_type == "textFile" && !(_id in path("drafts.**"))]
+	] | order(_createdAt desc) [0...6] {
 		_id,
 		title,
 		description,

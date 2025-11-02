@@ -2,6 +2,7 @@ import { sanityFetch } from '@/lib/sanity/client'
 import Link from 'next/link'
 import Image from 'next/image'
 import { RECENT_MEDIA } from '@/lib/sanity/queries'
+import WelcomeHero from '@/components/public/WelcomeHero'
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
@@ -58,29 +59,7 @@ export default async function HomePage() {
 
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      {/* Hero Section */}
-      <section className="mb-16 text-center">
-        <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-          Welcome to Deandas Media
-        </h1>
-        <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-          Explore our curated collection of media, organized beautifully for your browsing pleasure.
-        </p>
-        <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
-          <Link
-            href="/media"
-            className="inline-flex items-center justify-center px-6 py-3 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 transition-colors shadow-lg"
-          >
-            Browse All Media
-          </Link>
-          <Link
-            href="/categories"
-            className="inline-flex items-center justify-center px-6 py-3 bg-white text-indigo-600 font-medium rounded-lg border-2 border-indigo-600 hover:bg-indigo-50 transition-colors"
-          >
-            Explore Categories
-          </Link>
-        </div>
-      </section>
+      <WelcomeHero />
 
       {/* Recent Media Grid */}
       <section className="mb-16">

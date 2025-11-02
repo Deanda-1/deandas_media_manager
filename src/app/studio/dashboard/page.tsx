@@ -294,6 +294,8 @@ export default async function DashboardPage() {
           )}
         </div>
       </div>
+
+        {/* Public Media Preview removed; see /studio/media for full preview */}
     </div>
   )
 }

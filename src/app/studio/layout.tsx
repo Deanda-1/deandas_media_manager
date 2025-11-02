@@ -1,7 +1,7 @@
 'use client'
 
 import { useSession } from 'next-auth/react'
-import { redirect } from 'next/navigation'
+import { redirect, usePathname } from 'next/navigation'
 import { useState } from 'react'
 import Link from 'next/link'
 
@@ -12,7 +12,18 @@ export default function DashboardLayout({
 }) {
   const { data: session, status } = useSession()
   const [isSidebarOpen, setIsSidebarOpen] = useState(true)
+  const pathname = usePathname()
   const contentPadding = isSidebarOpen ? 'lg:pl-64' : 'lg:pl-16'
+
+  const isActive = (path: string) => {
+    if (path === '/studio/dashboard') {
+      return pathname === path
+    }
+    if (path === '/studio/preview/home') {
+      return pathname?.startsWith('/studio/preview')
+    }
+    return pathname?.startsWith(path)
+  }
 
   if (status === 'loading') {
     return (
@@ -64,15 +75,19 @@ export default function DashboardLayout({
             </button>
           )}
         </div>
-        <nav className={`${isSidebarOpen ? 'px-4' : 'px-2'} py-4`}>
-          <ul className="space-y-2">
+        <nav className="py-4 pl-4">
+          <ul className="space-y-1">
             <li>
               <Link
                 href="/studio/dashboard"
                 aria-label="Dashboard"
                 title="Dashboard"
-                className={`flex items-center rounded-md py-2 text-gray-700 hover:bg-gray-100 ${
-                  isSidebarOpen ? 'px-4 justify-start' : 'px-0 justify-center'
+                className={`flex items-center py-2 hover:bg-gray-100 ${
+                  isSidebarOpen ? 'pr-4 justify-start' : 'pr-4 justify-center'
+                } ${
+                  isActive('/studio/dashboard')
+                    ? 'bg-indigo-100 text-indigo-700'
+                    : 'text-gray-700'
                 }`}
               >
                 <svg
@@ -96,8 +111,12 @@ export default function DashboardLayout({
                 href="/studio/structure"
                 aria-label="Sanity Studio"
                 title="Sanity Studio"
-                className={`flex items-center rounded-md py-2 text-gray-700 hover:bg-gray-100 ${
-                  isSidebarOpen ? 'px-4 justify-start' : 'px-0 justify-center'
+                className={`flex items-center py-2 hover:bg-gray-100 ${
+                  isSidebarOpen ? 'pr-4 justify-start' : 'pr-4 justify-center'
+                } ${
+                  isActive('/studio/structure')
+                    ? 'bg-indigo-100 text-indigo-700'
+                    : 'text-gray-700'
                 }`}
               >
                 <svg
@@ -117,37 +136,100 @@ export default function DashboardLayout({
               </Link>
             </li>
             <li>
-              <Link
-                href="/studio/media"
-                aria-label="Media"
-                title="Media"
-                className={`flex items-center rounded-md py-2 text-gray-700 hover:bg-gray-100 ${
-                  isSidebarOpen ? 'px-4 justify-start' : 'px-0 justify-center'
-                }`}
-              >
-                <svg
-                  className={`w-5 h-5 ${isSidebarOpen ? 'mr-3' : ''} shrink-0`}
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
+              <div>
+                <Link
+                  href="/studio/preview/home"
+                  aria-label="Site Preview"
+                  title="Site Preview"
+                  className={`flex items-center py-2 hover:bg-gray-100 ${
+                    isSidebarOpen ? 'pr-4 justify-start' : 'pr-4 justify-center'
+                  } ${
+                    isActive('/studio/preview/home')
+                      ? 'bg-indigo-100 text-indigo-700'
+                      : 'text-gray-700'
+                  }`}
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-                  />
-                </svg>
-                {isSidebarOpen && <span>Media</span>}
-              </Link>
+                  <svg
+                    className={`w-5 h-5 ${isSidebarOpen ? 'mr-3' : ''} shrink-0`}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                    />
+                  </svg>
+                  {isSidebarOpen && <span>Site Preview</span>}
+                </Link>
+                {/* Sub-navigation for Site Preview */}
+                {isSidebarOpen && isActive('/studio/preview/home') && (
+                  <ul className="mt-1 space-y-1 bg-indigo-50/50 pr-4">
+                    <li>
+                      <Link
+                        href="/studio/preview/home"
+                        className={`flex items-center py-1.5 pl-8 text-sm hover:bg-indigo-100 ${
+                          pathname === '/studio/preview/home'
+                            ? 'text-indigo-700 font-medium'
+                            : 'text-gray-600'
+                        }`}
+                      >
+                        Home
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        href="/studio/preview/media"
+                        className={`flex items-center py-1.5 pl-8 text-sm hover:bg-indigo-100 ${
+                          pathname === '/studio/preview/media'
+                            ? 'text-indigo-700 font-medium'
+                            : 'text-gray-600'
+                        }`}
+                      >
+                        Media
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        href="/studio/preview/categories"
+                        className={`flex items-center py-1.5 pl-8 text-sm hover:bg-indigo-100 ${
+                          pathname === '/studio/preview/categories'
+                            ? 'text-indigo-700 font-medium'
+                            : 'text-gray-600'
+                        }`}
+                      >
+                        Categories
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        href="/studio/preview/about"
+                        className={`flex items-center py-1.5 pl-8 text-sm hover:bg-indigo-100 ${
+                          pathname === '/studio/preview/about'
+                            ? 'text-indigo-700 font-medium'
+                            : 'text-gray-600'
+                        }`}
+                      >
+                        About
+                      </Link>
+                    </li>
+                  </ul>
+                )}
+              </div>
             </li>
             <li>
               <Link
                 href="/studio/layouts"
                 aria-label="Layouts"
                 title="Layouts"
-                className={`flex items-center rounded-md py-2 text-gray-700 hover:bg-gray-100 ${
-                  isSidebarOpen ? 'px-4 justify-start' : 'px-0 justify-center'
+                className={`flex items-center py-2 hover:bg-gray-100 ${
+                  isSidebarOpen ? 'pr-4 justify-start' : 'pr-4 justify-center'
+                } ${
+                  isActive('/studio/layouts')
+                    ? 'bg-indigo-100 text-indigo-700'
+                    : 'text-gray-700'
                 }`}
               >
                 <svg
@@ -171,8 +253,12 @@ export default function DashboardLayout({
                 href="/studio/settings"
                 aria-label="Settings"
                 title="Settings"
-                className={`flex items-center rounded-md py-2 text-gray-700 hover:bg-gray-100 ${
-                  isSidebarOpen ? 'px-4 justify-start' : 'px-0 justify-center'
+                className={`flex items-center py-2 hover:bg-gray-100 ${
+                  isSidebarOpen ? 'pr-4 justify-start' : 'pr-4 justify-center'
+                } ${
+                  isActive('/studio/settings')
+                    ? 'bg-indigo-100 text-indigo-700'
+                    : 'text-gray-700'
                 }`}
               >
                 <svg
