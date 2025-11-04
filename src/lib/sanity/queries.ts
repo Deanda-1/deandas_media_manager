@@ -71,5 +71,21 @@ export const RECENT_MEDIA = `
 
 // Site settings (for About page copy)
 export const SITE_SETTINGS = `
-	*[_type == "siteSettings"][0] { title, description }
+    *[_type == "siteSettings"][0] {
+        title,
+        description,
+        aboutIntroText,
+        aboutImage->{
+            _id,
+            title,
+            file {
+                asset-> { _id, url, mimeType }
+            }
+        },
+        aboutImageAlt,
+        aboutMissionHeading,
+        aboutMissionText,
+		aboutExtraSections[]{ _key, heading, text },
+        contactEmail
+    }
 `

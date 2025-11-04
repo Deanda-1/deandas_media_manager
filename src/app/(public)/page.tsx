@@ -56,6 +56,8 @@ async function getHomeData() {
 
 export default async function HomePage() {
   const { recentMedia, categories } = await getHomeData()
+  const safeRecent = (recentMedia ?? []).filter((m): m is MediaItem => !!m && typeof m._id === 'string')
+  const safeCategories = (categories ?? []).filter((c): c is Category => !!c && typeof c._id === 'string')
 
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -73,18 +75,18 @@ export default async function HomePage() {
           </Link>
         </div>
 
-        {recentMedia && recentMedia.length > 0 ? (
+        {safeRecent.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {recentMedia.map((item) => (
+            {safeRecent.map((item) => (
               <Link
                 key={item._id}
-                href={`/media_player?id=${item._id}`}
+                href={`/media_player?id=${encodeURIComponent(item._id)}`}
                 className="group bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow overflow-hidden"
               >
                 {/* Media Preview */}
                 {item.file?.asset && (
                   <div className="relative aspect-video bg-gray-100">
-                    {item.file.asset.mimeType?.startsWith('image/') ? (
+                    {item.file.asset.mimeType?.startsWith('image/') && !!item.file.asset.url ? (
                       <Image
                         src={item.file.asset.url}
                         alt={item.title || 'Media item'}
@@ -112,7 +114,7 @@ export default async function HomePage() {
                   )}
                   {item.categories && item.categories.length > 0 && (
                     <div className="mt-3 flex flex-wrap gap-2">
-                      {item.categories.slice(0, 2).map((cat: Category) => (
+                      {item.categories.slice(0, 2).filter(Boolean).map((cat: Category) => (
                         <span
                           key={cat._id}
                           className="text-xs px-2 py-1 bg-indigo-100 text-indigo-700 rounded-full"
@@ -134,14 +136,14 @@ export default async function HomePage() {
       </section>
 
       {/* Categories Section */}
-      {categories && categories.length > 0 && (
+      {safeCategories.length > 0 && (
         <section>
           <h2 className="text-3xl font-bold text-gray-900 mb-8">Browse by Category</h2>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {categories.map((category) => (
+            {safeCategories.map((category) => (
               <Link
                 key={category._id}
-                href={`/categories/${category.slug?.current || category._id}`}
+                href={`/categories?slug=${encodeURIComponent(category.slug?.current || category._id)}`}
                 className="group bg-white rounded-lg shadow-md hover:shadow-lg transition-all p-6 text-center"
               >
                 <h3 className="font-semibold text-gray-900 group-hover:text-indigo-600 transition-colors mb-2">

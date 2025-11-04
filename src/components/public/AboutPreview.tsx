@@ -21,7 +21,7 @@ async function getData() {
   return { settings }
 }
 
-export default async function AboutPage() {
+export default async function AboutPreview() {
   const { settings } = await getData()
 
   return (

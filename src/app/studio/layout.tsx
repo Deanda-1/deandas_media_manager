@@ -107,33 +107,52 @@ export default function DashboardLayout({
               </Link>
             </li>
             <li>
-              <Link
-                href="/studio/structure"
-                aria-label="Sanity Studio"
-                title="Sanity Studio"
-                className={`flex items-center py-2 hover:bg-gray-100 ${
-                  isSidebarOpen ? 'pr-4 justify-start' : 'pr-4 justify-center'
-                } ${
-                  isActive('/studio/structure')
-                    ? 'bg-indigo-100 text-indigo-700'
-                    : 'text-gray-700'
-                }`}
-              >
-                <svg
-                  className={`w-5 h-5 ${isSidebarOpen ? 'mr-3' : ''} shrink-0`}
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
+              <div>
+                <Link
+                  href="/studio/structure"
+                  aria-label="Sanity Studio"
+                  title="Sanity Studio"
+                  className={`flex items-center py-2 hover:bg-gray-100 ${
+                    isSidebarOpen ? 'pr-4 justify-start' : 'pr-4 justify-center'
+                  } ${
+                    isActive('/studio/structure')
+                      ? 'bg-indigo-100 text-indigo-700'
+                      : 'text-gray-700'
+                  }`}
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"
-                  />
-                </svg>
-                {isSidebarOpen && <span>Sanity Studio</span>}
-              </Link>
+                  <svg
+                    className={`w-5 h-5 ${isSidebarOpen ? 'mr-3' : ''} shrink-0`}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"
+                    />
+                  </svg>
+                  {isSidebarOpen && <span>Sanity Studio</span>}
+                </Link>
+                {/* Sub-navigation for Sanity Studio when active */}
+                {isSidebarOpen && isActive('/studio/structure') && (
+                  <ul className="mt-1 space-y-1 bg-indigo-50/50 pr-4">
+                    <li>
+                      <Link
+                        href="/studio/media"
+                        className={`flex items-center py-1.5 pl-8 text-sm hover:bg-indigo-100 ${
+                          pathname === '/studio/media'
+                            ? 'text-indigo-700 font-medium'
+                            : 'text-gray-600'
+                        }`}
+                      >
+                        App Media
+                      </Link>
+                    </li>
+                  </ul>
+                )}
+              </div>
             </li>
             <li>
               <div>

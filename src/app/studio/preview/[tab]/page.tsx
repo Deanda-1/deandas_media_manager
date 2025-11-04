@@ -3,7 +3,7 @@ import WelcomeHero from '@/components/public/WelcomeHero'
 import RecentMedia from '@/components/public/RecentMedia'
 import BrowseByCategory from '@/components/public/BrowseByCategory'
 import MediaLibrary from '@/components/media/MediaLibrary'
-import AboutContent from '@/components/public/AboutContent'
+import AboutPreview from '@/components/public/AboutPreview'
 
 export const metadata: Metadata = {
   title: 'Site Preview | Admin',
@@ -49,13 +49,7 @@ export default async function PreviewPage({ params }: { params: Promise<{ tab: s
         </div>
       )
     case 'about':
-      return (
-        <div>
-          <div className="bg-white/70 backdrop-blur-sm shadow rounded-lg p-4">
-            <AboutContent />
-          </div>
-        </div>
-      )
+      return <AboutPreview />
     default:
       return (
         <div className="bg-white/70 backdrop-blur-sm shadow rounded-lg p-6 text-gray-700">
