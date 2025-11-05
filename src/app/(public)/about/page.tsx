@@ -28,13 +28,12 @@ export default async function AboutPage() {
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <section className="max-w-4xl mx-auto text-center mb-12">
         <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">About{settings?.title ? ` ${settings.title}` : ''}</h1>
-        {settings?.description ? (
-          <p className="text-lg text-gray-600">{settings.description}</p>
-        ) : (
-          <p className="text-lg text-gray-600">
-            {settings?.aboutIntroText || 'We built this site to organize and share our media in a simple, beautiful way. Check back as we continue to grow the collection.'}
-          </p>
+        {settings?.description && (
+          <p className="text-lg text-gray-600 mb-4">{settings.description}</p>
         )}
+        <p className="text-lg text-gray-600">
+          {settings?.aboutIntroText || 'We built this site to organize and share our media in a simple, beautiful way. Check back as we continue to grow the collection.'}
+        </p>
         {settings?.aboutImage?.file?.asset?.url && settings?.aboutImage?.file?.asset?.mimeType?.startsWith('image/') && (
           <div className="mt-8">
             {/* eslint-disable-next-line @next/next/no-img-element */}

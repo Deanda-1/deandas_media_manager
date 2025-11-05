@@ -38,12 +38,12 @@ export default function SaveAboutTextForm({ currentTitle, currentDescription, cu
         />
       </div>
       <div>
-        <label className="block text-sm font-medium text-gray-700">Description</label>
+        <label className="block text-sm font-medium text-gray-700">Headline Text</label>
         <textarea
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           className="mt-1 w-full max-w-2xl rounded border border-gray-300 px-3 py-2 text-sm min-h-[120px]"
-          placeholder="About page description"
+          placeholder="About page headline text"
         />
       </div>
       <div>

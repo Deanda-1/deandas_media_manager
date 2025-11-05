@@ -21,11 +21,9 @@ async function getCategories() {
 }
 
 async function getMediaForCategory(slug: string) {
+	// Get media and textFiles that reference the category with the given slug
 	return sanityFetch<MediaItem[]>({
-		query: `[
-			*[_type == "media" && !(_id in path("drafts.**")) && references(*[_type=='category' && slug.current==$slug]._id)],
-			*[_type == "textFile" && !(_id in path("drafts.**")) && references(*[_type=='category' && slug.current==$slug]._id)]
-		] | order(_createdAt desc) {
+		query: `*[(_type == "media" || _type == "textFile") && !(_id in path("drafts.**")) && references(*[_type == "category" && slug.current == $slug]._id)] | order(_createdAt desc) {
 			_id,
 			title,
 			description,

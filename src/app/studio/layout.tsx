@@ -82,11 +82,11 @@ export default function DashboardLayout({
                 href="/studio/dashboard"
                 aria-label="Dashboard"
                 title="Dashboard"
-                className={`flex items-center py-2 hover:bg-gray-100 ${
+                className={`flex items-center py-2 hover:bg-gray-100 hover:rounded-lg ${
                   isSidebarOpen ? 'pr-4 justify-start' : 'pr-4 justify-center'
                 } ${
                   isActive('/studio/dashboard')
-                    ? 'bg-indigo-100 text-indigo-700'
+                    ? 'bg-indigo-100 text-indigo-700 rounded-lg'
                     : 'text-gray-700'
                 }`}
               >
@@ -112,11 +112,11 @@ export default function DashboardLayout({
                   href="/studio/structure"
                   aria-label="Sanity Studio"
                   title="Sanity Studio"
-                  className={`flex items-center py-2 hover:bg-gray-100 ${
+                  className={`flex items-center py-2 hover:bg-gray-100 hover:rounded-lg ${
                     isSidebarOpen ? 'pr-4 justify-start' : 'pr-4 justify-center'
                   } ${
                     isActive('/studio/structure')
-                      ? 'bg-indigo-100 text-indigo-700'
+                      ? 'bg-indigo-100 text-indigo-700 rounded-lg'
                       : 'text-gray-700'
                   }`}
                 >
@@ -137,13 +137,13 @@ export default function DashboardLayout({
                 </Link>
                 {/* Sub-navigation for Sanity Studio when active */}
                 {isSidebarOpen && isActive('/studio/structure') && (
-                  <ul className="mt-1 space-y-1 bg-indigo-50/50 pr-4">
+                  <ul className="mt-1 space-y-1 bg-indigo-50/50 rounded-lg">
                     <li>
                       <Link
                         href="/studio/media"
-                        className={`flex items-center py-1.5 pl-8 text-sm hover:bg-indigo-100 ${
+                        className={`flex items-center py-1.5 pl-8 pr-4 text-sm hover:bg-indigo-100 hover:rounded-lg ${
                           pathname === '/studio/media'
-                            ? 'text-indigo-700 font-medium'
+                            ? 'text-indigo-700 font-medium bg-indigo-100 rounded-lg'
                             : 'text-gray-600'
                         }`}
                       >
@@ -160,11 +160,11 @@ export default function DashboardLayout({
                   href="/studio/preview/home"
                   aria-label="Site Preview"
                   title="Site Preview"
-                  className={`flex items-center py-2 hover:bg-gray-100 ${
+                  className={`flex items-center py-2 hover:bg-gray-100 hover:rounded-lg ${
                     isSidebarOpen ? 'pr-4 justify-start' : 'pr-4 justify-center'
                   } ${
                     isActive('/studio/preview/home')
-                      ? 'bg-indigo-100 text-indigo-700'
+                      ? 'bg-indigo-100 text-indigo-700 rounded-lg'
                       : 'text-gray-700'
                   }`}
                 >
@@ -185,13 +185,13 @@ export default function DashboardLayout({
                 </Link>
                 {/* Sub-navigation for Site Preview */}
                 {isSidebarOpen && isActive('/studio/preview/home') && (
-                  <ul className="mt-1 space-y-1 bg-indigo-50/50 pr-4">
+                  <ul className="mt-1 space-y-1 bg-indigo-50/50 rounded-lg">
                     <li>
                       <Link
                         href="/studio/preview/home"
-                        className={`flex items-center py-1.5 pl-8 text-sm hover:bg-indigo-100 ${
+                        className={`flex items-center py-1.5 pl-8 pr-4 text-sm hover:bg-indigo-100 hover:rounded-lg ${
                           pathname === '/studio/preview/home'
-                            ? 'text-indigo-700 font-medium'
+                            ? 'text-indigo-700 font-medium bg-indigo-100 rounded-lg'
                             : 'text-gray-600'
                         }`}
                       >
@@ -201,9 +201,9 @@ export default function DashboardLayout({
                     <li>
                       <Link
                         href="/studio/preview/media"
-                        className={`flex items-center py-1.5 pl-8 text-sm hover:bg-indigo-100 ${
+                        className={`flex items-center py-1.5 pl-8 pr-4 text-sm hover:bg-indigo-100 hover:rounded-lg ${
                           pathname === '/studio/preview/media'
-                            ? 'text-indigo-700 font-medium'
+                            ? 'text-indigo-700 font-medium bg-indigo-100 rounded-lg'
                             : 'text-gray-600'
                         }`}
                       >
@@ -213,9 +213,9 @@ export default function DashboardLayout({
                     <li>
                       <Link
                         href="/studio/preview/categories"
-                        className={`flex items-center py-1.5 pl-8 text-sm hover:bg-indigo-100 ${
+                        className={`flex items-center py-1.5 pl-8 pr-4 text-sm hover:bg-indigo-100 hover:rounded-lg ${
                           pathname === '/studio/preview/categories'
-                            ? 'text-indigo-700 font-medium'
+                            ? 'text-indigo-700 font-medium bg-indigo-100 rounded-lg'
                             : 'text-gray-600'
                         }`}
                       >
@@ -225,9 +225,93 @@ export default function DashboardLayout({
                     <li>
                       <Link
                         href="/studio/preview/about"
-                        className={`flex items-center py-1.5 pl-8 text-sm hover:bg-indigo-100 ${
+                        className={`flex items-center py-1.5 pl-8 pr-4 text-sm hover:bg-indigo-100 hover:rounded-lg ${
                           pathname === '/studio/preview/about'
-                            ? 'text-indigo-700 font-medium'
+                            ? 'text-indigo-700 font-medium bg-indigo-100 rounded-lg'
+                            : 'text-gray-600'
+                        }`}
+                      >
+                        About
+                      </Link>
+                    </li>
+                  </ul>
+                )}
+              </div>
+            </li>
+            <li>
+              <div>
+                <Link
+                  href="/studio/layouts/home"
+                  aria-label="Layouts"
+                  title="Layouts"
+                  className={`flex items-center py-2 hover:bg-gray-100 hover:rounded-lg ${
+                    isSidebarOpen ? 'pr-4 justify-start' : 'pr-4 justify-center'
+                  } ${
+                    isActive('/studio/layouts')
+                      ? 'bg-indigo-100 text-indigo-700 rounded-lg'
+                      : 'text-gray-700'
+                  }`}
+                >
+                  <svg
+                    className={`w-5 h-5 ${isSidebarOpen ? 'mr-3' : ''} shrink-0`}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zm0 8a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1v-2z"
+                    />
+                  </svg>
+                  {isSidebarOpen && <span>Layouts</span>}
+                </Link>
+                {/* Sub-navigation for Layouts */}
+                {isSidebarOpen && isActive('/studio/layouts') && (
+                  <ul className="mt-1 space-y-1 bg-indigo-50/50 rounded-lg">
+                    <li>
+                      <Link
+                        href="/studio/layouts/home"
+                        className={`flex items-center py-1.5 pl-8 pr-4 text-sm hover:bg-indigo-100 hover:rounded-lg ${
+                          pathname === '/studio/layouts/home'
+                            ? 'text-indigo-700 font-medium bg-indigo-100 rounded-lg'
+                            : 'text-gray-600'
+                        }`}
+                      >
+                        Home
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        href="/studio/layouts/media"
+                        className={`flex items-center py-1.5 pl-8 pr-4 text-sm hover:bg-indigo-100 hover:rounded-lg ${
+                          pathname === '/studio/layouts/media'
+                            ? 'text-indigo-700 font-medium bg-indigo-100 rounded-lg'
+                            : 'text-gray-600'
+                        }`}
+                      >
+                        Media
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        href="/studio/layouts/categories"
+                        className={`flex items-center py-1.5 pl-8 pr-4 text-sm hover:bg-indigo-100 hover:rounded-lg ${
+                          pathname === '/studio/layouts/categories'
+                            ? 'text-indigo-700 font-medium bg-indigo-100 rounded-lg'
+                            : 'text-gray-600'
+                        }`}
+                      >
+                        Categories
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        href="/studio/layouts/about"
+                        className={`flex items-center py-1.5 pl-8 pr-4 text-sm hover:bg-indigo-100 hover:rounded-lg ${
+                          pathname === '/studio/layouts/about'
+                            ? 'text-indigo-700 font-medium bg-indigo-100 rounded-lg'
                             : 'text-gray-600'
                         }`}
                       >
@@ -240,43 +324,14 @@ export default function DashboardLayout({
             </li>
             <li>
               <Link
-                href="/studio/layouts"
-                aria-label="Layouts"
-                title="Layouts"
-                className={`flex items-center py-2 hover:bg-gray-100 ${
-                  isSidebarOpen ? 'pr-4 justify-start' : 'pr-4 justify-center'
-                } ${
-                  isActive('/studio/layouts')
-                    ? 'bg-indigo-100 text-indigo-700'
-                    : 'text-gray-700'
-                }`}
-              >
-                <svg
-                  className={`w-5 h-5 ${isSidebarOpen ? 'mr-3' : ''} shrink-0`}
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zm0 8a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1v-2z"
-                  />
-                </svg>
-                {isSidebarOpen && <span>Layouts</span>}
-              </Link>
-            </li>
-            <li>
-              <Link
                 href="/studio/settings"
                 aria-label="Settings"
                 title="Settings"
-                className={`flex items-center py-2 hover:bg-gray-100 ${
+                className={`flex items-center py-2 hover:bg-gray-100 hover:rounded-lg ${
                   isSidebarOpen ? 'pr-4 justify-start' : 'pr-4 justify-center'
                 } ${
                   isActive('/studio/settings')
-                    ? 'bg-indigo-100 text-indigo-700'
+                    ? 'bg-indigo-100 text-indigo-700 rounded-lg'
                     : 'text-gray-700'
                 }`}
               >
